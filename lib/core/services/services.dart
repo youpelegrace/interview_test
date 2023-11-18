@@ -84,6 +84,7 @@ class UserService {
     }
   }
 
+// the response data for this is empty for the login account provided so it's not used as no data to display
   Future<dynamic> getMobileMoney(int id) async {
     try {
       final authToken = await SecureStorage().readSecureData('token');
