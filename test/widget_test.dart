@@ -5,26 +5,86 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'dart:convert';
 
-import 'package:test_interview/main.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:test_interview/core/models/payment_method_res.dart';
+import 'package:test_interview/core/services/services.dart';
+import 'package:http/http.dart' as http;
+
+import 'payment_res.dart';
+
+// class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
+class MockUserService extends Mock implements UserService {}
+
+class MockHttpClientResponse extends Mock implements http.Response {}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group(
+    'UserService Tests',
+    () {
+      late MockUserService mockUserService;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      setUp(() {
+        mockUserService = MockUserService();
+      });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      test('should successfully login with valid credentials', () async {
+        final response = MockHttpClientResponse();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+        when(() => response.statusCode).thenReturn(200);
+        when(() => response.body).thenReturn(
+          '',
+        );
+        when(() => mockUserService.login(
+            username: 'username', password: 'password')).thenAnswer(
+          (invocation) async => Future.value(''),
+        );
+
+        final res = await mockUserService.login(
+            username: 'username', password: 'password');
+
+        expect(res, isA<String>());
+      });
+
+      test('should return payment method', () async {
+        final response = MockHttpClientResponse();
+
+        String responseBodyString =
+            json.encode(PaymentMethodMockResponse.paymentMethodRes);
+        when(() => response.statusCode).thenReturn(200);
+        when(() => response.body).thenReturn(
+          responseBodyString,
+        );
+
+        final jsonData = json.decode(response.body);
+        when(() => mockUserService.getPaymentsMethod()).thenAnswer(
+          (invocation) async => Future<PaymentMethodRes>.value(
+              PaymentMethodRes.fromJson(jsonData)),
+        );
+
+        final res = await mockUserService.getPaymentsMethod();
+
+        expect(res, isA<PaymentMethodRes>());
+      });
+
+      test('should return mobile money method', () async {
+        final response = MockHttpClientResponse();
+
+        when(() => response.statusCode).thenReturn(200);
+        when(() => response.body).thenReturn(
+          '',
+        );
+
+        when(() => mockUserService.getMobileMoney(1)).thenAnswer(
+          (invocation) async => Future.value(''),
+        );
+
+        final res = await mockUserService.getMobileMoney(1);
+
+        expect(res, isA<String>());
+      });
+    },
+  );
 }

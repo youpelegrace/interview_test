@@ -6,11 +6,19 @@ import 'package:test_interview/view/home_page.dart';
 import 'package:test_interview/widgets/custom_button.dart';
 import 'package:test_interview/widgets/custome_textfield.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final usernameContoller = TextEditingController();
+
   final passwordContoller = TextEditingController();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -80,11 +88,14 @@ class LoginPage extends StatelessWidget {
                     height: 80,
                   ),
                   CustomButton(
+                    isLoading: isLoading,
                     label: 'Login',
                     onPressed: () async {
                       final myModel =
                           Provider.of<ViewModel>(context, listen: false);
-
+                      setState(() {
+                        isLoading = true;
+                      });
                       await myModel
                           .login(
                         username: usernameContoller.text.trim(),
@@ -97,6 +108,9 @@ class LoginPage extends StatelessWidget {
                             builder: (context) => const HomePages(),
                           ),
                         );
+                        setState(() {
+                          isLoading = false;
+                        });
                       });
                     },
                   ),

@@ -6,9 +6,11 @@ class CustomButton extends StatelessWidget {
     super.key,
     required this.label,
     required this.onPressed,
+    this.isLoading = false,
   });
   final String label;
   final void Function() onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +25,24 @@ class CustomButton extends StatelessWidget {
             ),
             backgroundColor: primaryColor,
           ),
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.visible,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              color: white,
-              fontSize: 14,
-            ),
-          )),
+          child: isLoading
+              ? const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(
+                    color: white,
+                    strokeWidth: 2,
+                  ),
+                )
+              : Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.visible,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: white,
+                    fontSize: 14,
+                  ),
+                )),
     );
   }
 }

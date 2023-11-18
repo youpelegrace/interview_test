@@ -16,7 +16,8 @@ class HomePages extends StatelessWidget {
       future: notifier.fetchPaymentMethods(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
@@ -66,9 +67,7 @@ class HomePages extends StatelessWidget {
                               final paymentMethod =
                                   notifier.paymentMethodRes!.data![index];
                               return GestureDetector(
-                                onTap: () async {
-                                  await notifier
-                                      .fetchMobileMoney(paymentMethod.id!);
+                                onTap: () {
                                   CustomBottomSheet.show(
                                     context,
                                     const MobileMoneyMethod(),

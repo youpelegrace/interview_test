@@ -6,6 +6,7 @@ import 'package:test_interview/core/view_model/view_model.dart';
 import 'view/login_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

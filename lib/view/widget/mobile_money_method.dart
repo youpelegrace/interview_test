@@ -38,30 +38,25 @@ class MobileMoneyMethod extends StatelessWidget {
         Divider(
           color: primaryColor.withOpacity(0.10),
         ),
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Card(
-            color: white,
-            elevation: 2,
-            child: Row(
-              children: [
-                Radio(
-                  value: 'value',
-                  groupValue: [],
-                  onChanged: (obj) {},
-                ),
-                const Text(
-                  'yessss',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0,
-                    color: primaryColor,
-                  ),
-                ),
-              ],
-            ),
+        const SizedBox(
+          height: 30,
+        ),
+        const Icon(
+          Icons.edgesensor_low_outlined,
+          size: 100,
+          color: primaryColor,
+        ),
+        const Text(
+          'No mobile money method',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 14.0,
+            color: primaryColor,
           ),
+        ),
+        const SizedBox(
+          height: 40,
         ),
         const Row(
           children: [

@@ -8,9 +8,12 @@ import 'package:test_interview/core/models/payment_method_res.dart';
 import 'package:test_interview/core/services/security.dart';
 
 class UserService {
+  final http.Client? httpClient;
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
-  Future<void> login(
+  UserService({this.httpClient});
+
+  Future<String?> login(
       {required String username, required String password}) async {
     final Map<String, dynamic> data = {
       "log": username,
@@ -45,6 +48,7 @@ class UserService {
     } catch (e) {
       print('Error: $e');
     }
+    return null;
   }
 
   Future<PaymentMethodRes?> getPaymentsMethod() async {
@@ -69,7 +73,7 @@ class UserService {
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         final momoRes = PaymentMethodRes.fromJson(jsonData);
-
+        log('Response data: ${response.body}');
         return momoRes;
       } else {
         return null;
@@ -80,7 +84,7 @@ class UserService {
     }
   }
 
-  Future<PaymentMethodRes?> getMobileMoney(int id) async {
+  Future<dynamic> getMobileMoney(int id) async {
     try {
       final authToken = await SecureStorage().readSecureData('token');
 
@@ -100,10 +104,7 @@ class UserService {
       );
 
       if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
-        final momoRes = PaymentMethodRes.fromJson(jsonData);
-
-        return momoRes;
+        return null;
       } else {
         return null;
       }

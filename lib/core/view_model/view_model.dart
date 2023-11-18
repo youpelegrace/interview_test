@@ -9,25 +9,27 @@ class ViewModel extends ChangeNotifier {
   PaymentMethodRes? _paymentMethodRes;
   PaymentMethodRes? get paymentMethodRes => _paymentMethodRes;
 
-  Future<void> login(
+  Future<bool?> login(
       {required String username, required String password}) async {
     await _userService.login(username: username, password: password);
+    return null;
   }
 
-  Future<void> fetchPaymentMethods() async {
+  Future<bool?> fetchPaymentMethods() async {
     try {
       if (_paymentMethodRes == null) {
-        // If not loaded, fetch data
         _paymentMethodRes = await _userService.getPaymentsMethod();
-        // Notify listeners to update the UI
+
         notifyListeners();
       }
     } catch (e) {
       print('Error fetching payment methods: $e');
     }
+    return null;
   }
 
-  Future<void> fetchMobileMoney(int id) async {
+  Future<bool?> fetchMobileMoney(int id) async {
     await _userService.getMobileMoney(id);
+    return null;
   }
 }
