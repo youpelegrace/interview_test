@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                         username: usernameContoller.text.trim(),
                         password: passwordContoller.text.trim(),
                       )
-                          .then((value) async {
+                          .then((value) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -111,6 +111,9 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           isLoading = false;
                         });
+                      }).catchError((error) {
+                        // Handle the error that occurred during account creation
+                        print('Error creating account: $error');
                       });
                     },
                   ),
