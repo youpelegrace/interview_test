@@ -95,7 +95,7 @@ class HomePages extends StatelessWidget {
                                           paymentMethod.titleEn ?? '',
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
-                                            fontWeight: FontWeight.w400,
+                                            fontWeight: FontWeight.w600,
                                             fontSize: 14.0,
                                             color: primaryColor,
                                           ),
